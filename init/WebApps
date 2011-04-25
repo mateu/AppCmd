@@ -10,9 +10,9 @@ USER="www-data:www-data"
 CWD=`pwd`
 # Defaults
 RUN="no"
-OPTIONS=" -s Starman --app /home/hunter/dev/AppCmd/app/web.psgi --port 5012 "
+OPTIONS=" -s Starman --app /home/hunter/dev/AppCmd/app/web.psgi --port 5011 "
 
-PIDFILE="$NAME.pid"
+PIDFILE="/var/run/$NAME.pid"
 
 #
 # These compatibility funcs are here just for sarge backports.
