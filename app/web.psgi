@@ -8,6 +8,7 @@ use lib '/home/hunter/dev/HomePage/lib';
 use HomePage;
 use lib '/home/hunter/dev/Mojito/lib';
 use Plack::Builder;
+use Plack::App::File;
 use Plack::Util;
 
 MojoMojo->setup_engine('PSGI');
@@ -34,4 +35,5 @@ builder {
     };
     mount "/mi"      => $homepage_app;
     mount "/note"    => $mojito_app;
+    mount "/" => Plack::App::File->new(root => "/home/hunter/www");
 };
