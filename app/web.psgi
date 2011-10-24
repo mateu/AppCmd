@@ -27,6 +27,12 @@ my $static_app = Plack::App::File->new(root => "/home/hunter/www");
 my $root_app = sub { [200, ['Content-type', 'text/html'],['Hola els meus amics.']] };
 my $cascaded_root_app = Plack::App::Cascade->new(apps => [$static_app, $root_app ])->to_app;
 
+use CGI::Emulate::PSGI;
+use CGI::Compile;
+my $cgi_script = "/home/hunter/cgi-bin/secure/contacts.cgi";
+my $sub = CGI::Compile->compile($cgi_script);
+my $contacts_app = CGI::Emulate::PSGI->handler($sub);
+
 builder {
     mount "/wiki"    => builder {
         enable_if { $_[0]->{REMOTE_ADDR} eq '127.0.0.1' }
@@ -40,5 +46,9 @@ builder {
     };
     mount "/mi"      => $homepage_app;
     mount "/note"    => $mojito_app;
+    mount "/cgi-bin/contacts.cgi" => builder {
+        enable "Auth::Htpasswd", file => '/home/hunter/passwords/.htpasswd';
+        $contacts_app;
+    };
     mount "/"        => $cascaded_root_app;
 };
