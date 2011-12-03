@@ -9,7 +9,7 @@ USER="www-data:www-data"
 CWD=`pwd`
 # Defaults
 RUN="no"
-OPTIONS=" -s Starman --app /home/hunter/dev/AppCmd/app/web.psgi --port 5011 --access-log /var/log/web.log"
+OPTIONS=" -s Starman --app /home/hunter/dev/AppCmd/app/web.psgi --port 5011 --access-log /var/log/web.access.log --error-log /var/log/web.error.log"
 
 PIDFILE="/var/run/$NAME.pid"
 
