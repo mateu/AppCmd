@@ -21,7 +21,7 @@ my $bracket_app = sub { Bracket->run(@_) };
 HomePage->setup_engine('PSGI');
 my $homepage_app = sub { HomePage->run(@_) };
 
-my $mojito_app = Plack::Util::load_psgi '/home/hunter/dev/Mojito/app/mojito.pl';
+my $mojito_app = Plack::Util::load_psgi '/home/hunter/dev/Mojito/app.psgi';
 
 my $static_app = Plack::App::File->new(root => "/home/hunter/www");
 my $root_app = sub { [200, ['Content-type', 'text/html'],['Hola els meus amics.']] };
