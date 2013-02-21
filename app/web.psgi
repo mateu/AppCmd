@@ -7,6 +7,8 @@ use Bracket;
 use lib '/home/hunter/dev/HomePage/lib';
 use HomePage;
 use lib '/home/hunter/dev/Mojito/lib';
+use RankBall;
+use lib '/home/hunter/dev/RankBall/lib';
 use Plack::Builder;
 use Plack::Util;
 use Plack::App::File;
@@ -22,6 +24,8 @@ HomePage->setup_engine('PSGI');
 my $homepage_app = sub { HomePage->run(@_) };
 
 my $mojito_app = Plack::Util::load_psgi '/home/hunter/dev/Mojito/app.psgi';
+
+my $rank_ball_app = Plack::Util::load_psgi '/home/hunter/dev/RankBall/app.psgi';
 
 my $static_app = Plack::App::File->new(root => "/home/hunter/www");
 my $root_app = sub { [200, ['Content-type', 'text/html'],['Hola els meus amics.']] };
@@ -50,5 +54,6 @@ builder {
         enable "Auth::Htpasswd", file => '/home/hunter/passwords/.htpasswd';
         $contacts_app;
     };
+    mount "/rank"    => $rank_ball_app;
     mount "/"        => $cascaded_root_app;
 };
