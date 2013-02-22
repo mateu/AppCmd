@@ -7,7 +7,6 @@ use Bracket;
 use lib '/home/hunter/dev/HomePage/lib';
 use HomePage;
 use lib '/home/hunter/dev/Mojito/lib';
-use RankBall;
 use lib '/home/hunter/dev/RankBall/lib';
 use Plack::Builder;
 use Plack::Util;
@@ -24,7 +23,6 @@ HomePage->setup_engine('PSGI');
 my $homepage_app = sub { HomePage->run(@_) };
 
 my $mojito_app = Plack::Util::load_psgi '/home/hunter/dev/Mojito/app.psgi';
-
 my $rank_ball_app = Plack::Util::load_psgi '/home/hunter/dev/RankBall/app.psgi';
 
 my $static_app = Plack::App::File->new(root => "/home/hunter/www");
