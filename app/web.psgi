@@ -12,6 +12,7 @@ use Plack::Builder;
 use Plack::Util;
 use Plack::App::File;
 use Plack::App::Cascade;
+use File::Slurp;
 
 MojoMojo->setup_engine('PSGI');
 my $mojomojo_app = sub { MojoMojo->run(@_) };
@@ -24,9 +25,9 @@ my $homepage_app = sub { HomePage->run(@_) };
 
 my $mojito_app = Plack::Util::load_psgi '/home/hunter/dev/Mojito/app.psgi';
 my $rank_ball_app = Plack::Util::load_psgi '/home/hunter/dev/RankBall/app.psgi';
-
-my $static_app = Plack::App::File->new(root => "/home/hunter/www");
-my $root_app = sub { [200, ['Content-type', 'text/html'],['Hola els meus amics.']] };
+my $home_page = "/home/hunter/www/index.html";
+my $root_app = sub { [200, ['Content-type', 'text/html'],[read_file($home_page)]] };
+my $static_app = Plack::App::File->new(root => "/home/hunter/www")->to_app;
 my $cascaded_root_app = Plack::App::Cascade->new(apps => [$static_app, $root_app ])->to_app;
 
 use CGI::Emulate::PSGI;
