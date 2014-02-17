@@ -14,9 +14,12 @@ use Plack::App::File;
 use Plack::App::Cascade;
 use File::Slurp;
 
-my $mojomojo_app = MojoMojo->psgi_app(@_);
-my $bracket_app  = Bracket->psgi_app(@_);
-my $homepage_app = HomePage->psgi_app(@_);
+MojoMojo->setup_engine('PSGI');
+my $mojomojo_app = sub { MojoMojo->run(@_) };
+Bracket->setup_engine('PSGI');
+my $bracket_app  = sub { Bracket->run(@_) };
+HomePage->setup_engine('PSGI');
+my $homepage_app = sub { HomePage->run(@_) };
 
 my $mojito_app = Plack::Util::load_psgi '/home/hunter/dev/Mojito/app.psgi';
 my $rank_ball_app = Plack::Util::load_psgi '/home/hunter/dev/RankBall/app.psgi';
